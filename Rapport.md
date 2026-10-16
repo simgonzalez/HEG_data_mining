@@ -1,3 +1,14 @@
+<!-- The report must contain : 
+Introduction : Expliquer brièvement le problème (TP1-A)
+Analyse préliminaire (TP1-A)
+Analyse exploratoire. Dans cette section, vous rendrez compte de
+votre analyse exploratoire. Elle doit être structurée en deux
+parties :
+Analyse exploratoire des attributs qualitatifs (TP1-A)
+Analyse exploratoire des attributs quantitatifs (TP1-B).
+Résumé des principaux résultats et conclusions - factuel, clair et
+concis (TP1-A, TP1-B) -->
+
 # HR Report
 ## Profil that are the most likely to leave
 
@@ -35,3 +46,13 @@ The target variable of the dataset is "left", it tells us if the employee has le
 #### Not useful for the analysis
 
 The id variable has no purpose in the analysis because it is just an identifier that has no meaning and is strictly technical.
+
+#### Relevant attributes for the analysis
+
+The work accident variable seems to be an important factor of an employee leaving the company.
+The department variable seems to be an important factor of an employee leaving the company.
+The salary variable seems to be an important factor of an employee leaving the company although there's not much employees in the "high" salary category, which moderate the interest of that attribute for the analysis.
+
+#### Less relevant attributes for the analysis
+
+The promotion in the last 5 years variable seems to be an important factor of an employee leaving the company or not although very few employees were promoted in the past 5 years. It makes the attribute less relevant for the analysis.
