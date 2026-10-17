@@ -8,21 +8,25 @@ Analyse exploratoire des attributs qualitatifs (TP1-A)
 Analyse exploratoire des attributs quantitatifs (TP1-B).
 Résumé des principaux résultats et conclusions - factuel, clair et
 concis (TP1-A, TP1-B) -->
-
 # HR Report
+
 ## Profil that are the most likely to leave
 
-This report is intended for our HR department to indetify which employee profil is the most likely to leave the company.
+### Introduction
 
-## Dataset
+Since the director charged the department with the task of analysing the past and current employee database in order to figure out the raisons that would constitute the departure of a given employee. This report thus presents the results of that analysis.
 
-### Dimensions
+### Preliminary Analysis
 
-The dataset is made of 10,000 rows about the past and current employees each row has 11 attributes which are the following :
+*Combien d'instances et combien de variables (attributs) y a-t-il ?*
 
-### Variables
+There are 10'000 instances and 11 attributes/variables for each instance.
 
-#### Description
+*Quelle est la variable cible et est-elle qualitative ou quantitative ?*
+
+For this analysis the target attribute/variable that we are looking at is the **left** variable. This is a qualitative attribute, that can either take the values 0 or 1, with 0 indicating that the employee has not left the company, and 1 meaning that the employee did.
+
+*Les autres attributs sont-ils quantitatifs ou qualitatifs ?*
 
 | Variable | Description | Type | Why |
 | :--- | :--- | :--- | :--- |
@@ -38,21 +42,25 @@ The dataset is made of 10,000 rows about the past and current employees each row
 | `department` | Employee department | Qualitative | Groups organization |
 | `salary` | Employee salary category | Qualitative | Categorizes pay |
 
-#### Target
+*Certaines variables doivent-elles être supprimés de l'analyse ? Pourquoi ?* 
 
-The target variable of the dataset is "left", it tells us if the employee has left the company. This variable is qualitative.
-# TODO: Fournir une description de la variable cible et de sa distribution.
+The variables to be eliminated should be:
+ID - does not help to answer the question of whether or not an employee has left the company.
+Satisfaction_level - does not help to answer the question either, even though it seems like it would, this variable is a quantitative one, not a qualitative one, meaning that this variable is not serving of any help.
+Last_evaluation - does not help to answer the question, because it is a quantitative variable.
+Number_project - does not help to answer the question, because it is a quantitative variable.
+Average_monthly_hours - does not help to answer the question, because it is a quantitative variable.
+Time_spent_company - does not help to answer the question, because it is a quantitative variable.
 
-#### Not useful for the analysis
+Work_accident - could help to answer the question, since it is also a qualitative answer, that has 2 values: 0 meaning that an employee did not have a work accident, and 1 meaning that an employee did.
+Promoted_last_5years - could help to answer the question, since it is also a qualitative answer, that has 2 values: 0 meaning that an employee did not receive a promotion in the last 5 years, and 1 meaning that an employee did
+Departement - could help answer the question, since it is also a qualitative answer, that gives out an extra information about where did an employee that has left the company had worked.
+Qualitative - could help answer the question, since it is also a qualitative answer, that has 3 possible values: low, medium, high. It also represents an information that might have influenced the choice of an employee's departure.
 
-The id variable has no purpose in the analysis because it is just an identifier that has no meaning and is strictly technical.
+*Y a-t-il des données manquantes ?*
 
-#### Relevant attributes for the analysis
+No, there is no missing data.
 
-The work accident variable seems to be an important factor of an employee leaving the company.
-The department variable seems to be an important factor of an employee leaving the company.
-The salary variable seems to be an important factor of an employee leaving the company although there's not much employees in the "high" salary category, which moderate the interest of that attribute for the analysis.
+*Fournir une description de la variable cible et de sa distribution.*
 
-#### Less relevant attributes for the analysis
-
-The promotion in the last 5 years variable seems to be an important factor of an employee leaving the company or not although very few employees were promoted in the past 5 years. It makes the attribute less relevant for the analysis.
+the distribution is 7619 employees that have not left the company, and 2381 employees that have left the company. This means that 76.19% of the employees have stayed, and 23.81% of the employees have left.
