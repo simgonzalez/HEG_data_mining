@@ -29,6 +29,12 @@ departure rates vary from 14.12% in RandD to 27.27% in accounting. The
 department comparison can identify where retention deserves investigation, but
 it does not by itself show that a department causes departures.
 
+The quantitative analysis complements this picture: `satisfaction_level` is by
+far the strongest quantitative attribute (55.6% of employees below 0.5 left,
+against 9.9% of those at 0.5 or above), and `time_spend_company` adds
+complementary information. Together they isolate three small regions containing
+92% of all leavers, although the separation is non-linear and not perfect.
+
 
 ## 1. Scope and data quality
 
@@ -146,7 +152,137 @@ relative difference.
 \end{minipage}
 \end{center}
 
-## 3. Probability calculations and Bayes' theorem
+## 3. Quantitative exploratory analysis
+
+The TP1-B part uses the five quantitative attributes of the dataset
+(`satisfaction_level`, `last_evaluation`, `number_project`,
+`average_montly_hours` and `time_spend_company`). Their importance is measured
+by the standardised gap between the class means,
+
+$$
+\mathrm{score}(f)=\frac{\left|\mu(f\mid left=0)-\mu(f\mid left=1)\right|}{\sigma(f)}.
+$$
+
+A high score means that the conditional means are far apart relative to the
+spread of the attribute. The scores are:
+
+| Attribute | Mean (stayed) | Mean (left) | Score |
+|---|---:|---:|---:|
+| `satisfaction_level` | 0.667 | 0.443 | **0.905** |
+| `time_spend_company` | 3.374 | 3.878 | **0.345** |
+| `average_montly_hours` | 198.77 | 206.83 | 0.162 |
+| `number_project` | 3.785 | 3.843 | 0.047 |
+| `last_evaluation` | 0.717 | 0.718 | 0.005 |
+
+Following the assignment, only the two most important attributes are kept for
+the visualizations: `satisfaction_level` and `time_spend_company`. The other
+three have scores below 0.17 and almost identical conditional means.
+
+### 3.1 `satisfaction_level`
+
+\begin{center}
+\begin{minipage}{0.82\textwidth}
+\centering
+\includegraphics[width=\textwidth]{screenshots/Psatisfaction_level.png}
+
+\textit{Figure 4: Marginal distribution of \(satisfaction_level\) (left) and
+conditional distributions given \(left\) (right)}
+\end{minipage}
+\end{center}
+
+The marginal distribution (left) is fairly flat between 0.4 and 1.0, so it says
+little about departure on its own. The conditional distributions (right) are
+very different. Among employees who stayed, 82% have a score of at least 0.5
+and the mean is 0.667. Among leavers, the mean drops to 0.443 and the mass is
+concentrated in three groups: very unsatisfied employees below 0.15
+(24.6% of leavers), employees around 0.35--0.45 (42.0%) and a group of
+apparently satisfied employees between 0.7 and 0.9 (25.0%). In total, 71.0% of
+leavers have a satisfaction below 0.5, against 17.7% of the employees who
+stayed. Equivalently, 55.6% of employees below 0.5 left, against 9.9% of those
+at 0.5 or above.
+
+This is a good discriminating attribute: its importance score (0.905) is about
+2.6 times the score of the second attribute, and low satisfaction is a strong
+indicator of departure. It is not sufficient on its own, because the group of
+satisfied leavers largely overlaps with the employees who stayed, so a single
+threshold cannot identify all departures.
+
+### 3.2 `time_spend_company`
+
+\begin{center}
+\begin{minipage}{0.82\textwidth}
+\centering
+\includegraphics[width=\textwidth]{screenshots/Ptimespent_company.png}
+
+\textit{Figure 5: Marginal distribution of \(time_spend_company\) (left) and
+conditional distributions given \(left\) (right)}
+\end{minipage}
+\end{center}
+
+The marginal distribution (left) is skewed to the right: most employees spent
+between 2 and 4 years in the company, with a tail up to 10 years. The
+conditional distributions (right) overlap, but only in certain ranges.
+Employees who stayed cover the whole range; they represent 28% of the stayers
+at 2 years, against 1.5% of the leavers, and all 374 employees with 7, 8 or 10
+years of tenure stayed. Leavers are concentrated between 3 and 6 years:
+44.6% of them have 3 years of tenure, 24.5% have 4 years and 23.4% have 5
+years. The departure rate is not monotonic: 1.7% at 2 years, 24.6% at 3 years,
+35.0% at 4 years, **56.6% at 5 years**, 29.8% at 6 years and 0% from 7 years.
+
+This attribute is only a partial discriminator. Its score (0.345) is much
+lower than the one of `satisfaction_level`, and the two class means differ by
+only half a year (3.37 against 3.88). Taken alone it cannot separate the
+classes, but it brings complementary information: 2 years or 7 years and more
+are almost risk-free, while 4--5 years are the most at risk. Because this
+shape is non-monotonic, a score based only on the means probably understates
+its usefulness.
+
+### 3.3 Joint visualization
+
+\begin{center}
+\begin{minipage}{0.82\textwidth}
+\centering
+\includegraphics[width=\textwidth]{screenshots/scatter_plot.png}
+
+\textit{Figure 6: Scatter plot of \(time_spend_company\) against
+\(satisfaction_level\), with one colour per value of \(left\)}
+\end{minipage}
+\end{center}
+
+Plotting the two attributes together reveals a structure that neither
+distribution shows alone. The employees who left (in red) form three compact
+areas, while the employees who stayed (in blue) cover almost everything else:
+
+| Area | Satisfaction | Tenure | Employees | Of which left |
+|---|---|---:|---:|---:|
+| A: unsatisfied, experienced | below 0.12 | 4--5 years | 574 | 574 (100%) |
+| B: moderately unsatisfied, 3 years | 0.36--0.46 | 3 years | 1,130 | 1,022 (90.4%) |
+| C: satisfied, long tenure | 0.72--0.92 | 5--6 years | 750 | 595 (79.3%) |
+
+These three areas contain 2,191 of the 2,381 leavers (92%), while outside them
+only 190 of 7,809 employees left (2.4%). The joint view also explains the weak
+points of the individual attributes: the satisfied leavers of area C are
+separated from the stayers by their tenure (5--6 years), and the 3-year tenure,
+shared by both classes, splits into a leaver group with satisfaction between
+0.36 and 0.46 and a much larger stayer group above 0.5.
+
+The joint visualization therefore separates the classes much better than either
+attribute alone, but not perfectly. The separation is non-linear: the red
+areas are small islands inside the blue cloud, so rules by region (as a
+decision tree could learn) are more appropriate than a single threshold. The
+areas are also not pure: area C still contains about 20% of stayers, and 190
+leavers (8%) lie outside the three areas.
+
+### 3.4 Conclusion of the quantitative analysis
+
+`satisfaction_level` is the strongest quantitative indicator of departure, and
+`time_spend_company` adds complementary information. Neither separates the two
+classes perfectly alone, but their joint view isolates 92% of leavers in three
+small regions. This remains a descriptive result: it does not establish a
+causal interpretation, and a classifier would be needed to turn these regions
+into predictions.
+
+## 4. Probability calculations and Bayes' theorem
 
 The following example uses \(f=promotion\_last\_5years\) and
 \(y=left\). The joint distribution estimated from the data is:
@@ -213,7 +349,7 @@ carries little information for distinguishing leavers. Thus, Bayes' theorem is
 a mathematical rule that a classification method can use to estimate the most
 likely class of a new employee from the attributes that are known.
 
-## 4. Conclusions for HR
+## 5. Conclusions for HR
 
 The qualitative analysis identifies **salary category** as the most promising
 qualitative signal for further investigation: departures are substantially
@@ -224,3 +360,10 @@ variable: almost all employees had no promotion, and the observed rate for
 that group is barely above the base rate. `department`
 shows a meaningful secondary spread: accounting and HR have the highest
 observed departure rates, while RandD and management have the lowest. The department by itself is not a good indication of wheteher an employee will leave, but it can help identify where retention deserves investigation. Maybe departments with high departure rates have a more stressful work environment or less satisfying work, but this cannot be concluded from the qualitative analysis alone. Further investigation is needed to understand the underlying causes of departures in different departments.
+
+The quantitative analysis strengthens this conclusion: **satisfaction level**
+is the main quantitative signal of departure, and tenure is useful mainly in
+combination with it. Their joint plot isolates three at-risk regions covering
+92% of leavers, but the separation is non-linear and leaves some employees
+misclassified, so these descriptive findings should be confirmed with a
+predictive model before being used for HR decisions.
